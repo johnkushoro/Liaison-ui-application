@@ -11,7 +11,8 @@
     "cypress:runner": "cypress open --e2e --browser chrome",
     "cypress:runner:headed": "cypress run --headed --browser chrome",
     "cypress:execution": "cypress run --spec 'cypress/e2e/features/*'",
-    "cypress:parallel": "concurrently 'npm run cypress:run:homePageTest'",
+    "clean:cypress": "node cleanup.js",
+    "cypress:parallel": "npm run clean:cypress && concurrently 'npm run cypress:run:homePageTest' 'npm run cypress:run:topNav' 'npm run cypress:run:footerSubscriptionForm'",
     "cypress:run:homePageTest": "npx cypress run --spec 'cypress/e2e/features/homePage.feature' --headed --browser chrome && node cucumber-html-report.js",
     "cypress:run:topNav": "npx cypress run --spec 'cypress/e2e/features/topNavigation.feature' --headed --browser chrome && node cucumber-html-report.js",
     "cypress:run:footerSubscriptionForm": "npx cypress run --spec 'cypress/e2e/features/homePage.feature' --headed --browser chrome && node cucumber-html-report.js"
@@ -28,7 +29,7 @@
     "@types/cypress-cucumber-preprocessor": "^4.0.5",
     "@types/dotenv": "^8.2.0",
     "concurrently": "^8.2.2",
-    "cypress": "^13.6.4",
+    "cypress": "^13.11.0",
     "cypress-iframe": "^1.0.1",
     "cypress-wait-until": "^2.0.1",
     "cypress-xpath": "^2.0.1",
@@ -54,6 +55,18 @@
   },
   "cypress-cucumber-preprocessor": {
     "stepDefinitions": "cypress/e2e/step_definitions/**/*.js",
-    "nonGlobalStepDefinitions": true
+    "html": {
+      "enabled": true,
+      "output": "cypress/reports/cucumber-html/cucumber-report.html"
+    },
+    "messages": {
+      "enabled": true,
+      "output": "cypress/reports/cucumber-ndjson/cucumber-report.ndjson"
+    },
+    "json": {
+      "enabled": true,
+      "formatter": "cucumber-json-formatter",
+      "output": "cypress/reports/cucumber-json/cucumber-report.json"
+    }
   }
 }

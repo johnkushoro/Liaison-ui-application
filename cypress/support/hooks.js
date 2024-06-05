@@ -1,4 +1,0 @@
-beforeEach(() => {
-    cy.clearCookies()
-})
-
